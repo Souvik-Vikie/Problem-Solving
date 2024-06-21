@@ -65,3 +65,34 @@ public:
 };
 
 ```
+
+### 3. Two Integer Sum
+
+Given an array of integers nums and an integer target, return the indices i and j such that nums[i] + nums[j] == target and i != j.
+
+You may assume that every input has exactly one pair of indices i and j that satisfy the condition.
+
+```cpp
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int, int> target_sum;
+        for(int i=0; i<nums.size(); i++)
+        {
+            target_sum[nums[i]] = i;
+        }
+
+        for(int i=0 ; i< nums.size(); i++)
+        {
+            int complement = target - nums[i] ;
+            if(target_sum.count(complement) && target_sum[complement]!=i)
+            {
+                return {i, target_sum[complement] };
+            }
+        }
+        return {};
+    }
+};
+
+
+```
