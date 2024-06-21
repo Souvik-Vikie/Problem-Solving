@@ -2,7 +2,8 @@
 
 ## Problem Solving
 
-### Arrays
+## Arrays
+---
 
 ### 1. Contains Duplicate
 
