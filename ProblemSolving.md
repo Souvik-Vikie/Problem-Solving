@@ -1,21 +1,22 @@
 
 
-Problem Solving
+## Problem Solving
 
-1. Contains Duplicate: Given an integer array nums, return true if any value appears more than once in the array, otherwise return false.
+### 1. Contains Duplicate
+
+Given an integer array nums, return true if any value appears more than once in the array, otherwise return false.
+
+```cpp
 
 class Solution {
 public:
-
     bool hasDuplicate(vector<int>& nums) {
-        unordered_map<int,int>mp;
-        for(int i=0; i<nums.size(); i++){
+        unordered_map<int,int> mp;
+        for (int i = 0; i < nums.size(); i++) {
             mp[nums[i]]++;
         }
-        for(auto it = mp.begin(); it!=mp.end(); it++)
-        {
-            if(it->second >1)
-            {
+        for (auto it = mp.begin(); it != mp.end(); it++) {
+            if (it->second > 1) {
                 return true;
             }
         }
@@ -23,10 +24,17 @@ public:
     }
 };
 
-2. Is Anagram : Given two strings s and t, return true if the two strings are anagrams of each other, otherwise return false
+```
+
+### 2. Is Anagram 
+
+ Given two strings s and t, return true if the two strings are anagrams of each other, otherwise return false
+
+```cpp
 
 class Solution {
 public:
+
     bool isAnagram(string s, string t) {
 
         if(s.size()!=t.size())
@@ -52,3 +60,5 @@ public:
         
     }
 };
+
+```
