@@ -94,5 +94,8 @@ public:
     }
 };
 
-
 ```
+
+**Notes:**  target_sum.count(complement) is used to check if complement exists as a key in the target_sum unordered_map.
+
+
