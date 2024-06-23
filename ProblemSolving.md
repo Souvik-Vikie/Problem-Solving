@@ -99,3 +99,31 @@ public:
 **Notes:**  target_sum.count(complement) is used to check if complement exists as a key in the target_sum unordered_map.
 
 
+### 4. Anagram Groups
+
+Given an array of strings strs, group all anagrams together into sublists. You may return the output in any order.
+
+An anagram is a string that contains the exact same characters as another string, but the order of the characters can be different.
+
+```cpp
+
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string, vector<string>> mp;
+        for(auto x:strs)
+        {
+            string word = x;
+            sort(word.begin(), word.end());
+            mp[word].push_back(x);
+        }
+        vector<vector<string>> ans;
+        for(auto x: mp){
+            ans.push_back(x.second);
+        }
+        return ans;
+    }
+};
+
+```
+
