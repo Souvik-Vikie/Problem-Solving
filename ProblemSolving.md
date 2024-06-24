@@ -127,3 +127,36 @@ public:
 
 ```
 
+### 5. Top K Elements in List
+
+Given an integer array nums and an integer k, return the k most frequent elements within the array.
+
+The test cases are generated such that the answer is always unique.
+
+```cpp
+
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+      unordered_map<int, int> count;
+        for (auto x : nums) {
+            count[x]++;
+        }
+
+        // Step 2: Use a max heap to keep track of top k frequent elements
+        priority_queue<pair<int, int>> maxHeap;
+        for (auto& [num, freq] : count) {
+            maxHeap.push({freq, num});
+        }
+
+        // Step 3: Extract the top k elements
+        vector<int> ans;
+        for (int i = 0; i < k; ++i) {
+            ans.push_back(maxHeap.top().second);
+            maxHeap.pop();
+        }
+
+        return ans;
+    }
+}
+```
