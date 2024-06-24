@@ -182,6 +182,7 @@ public:
         return result;
     }
 
+
     vector<string> decode(string s) {
         vector<string> result;
 
@@ -202,3 +203,6 @@ public:
     }
 };
 ```
+
+
+sdncjsdojvos
