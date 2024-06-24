@@ -204,3 +204,38 @@ public:
 };
 ```
 
+### 7. Products of Array Discluding Self
+
+Given an integer array nums, return an array output where output[i] is the product of all the elements of nums except nums[i].
+
+Each product is guaranteed to fit in a 32-bit integer.
+
+Follow-up: Could you solve it in O(n) time without using the division operation?
+
+```cpp
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n = nums.size() ;
+        vector<int> result(n,1) ;
+
+        int prefix =1;
+        for(int i=0; i<n; i++)
+        {
+            result[i] = prefix;
+            prefix *= nums[i] ; 
+        }
+
+        int postfix = 1;
+
+        for(int i=n-1; i>= 0 ; i-- )
+        {
+            result[i] = result[i] * postfix ;
+            postfix *= nums[i] ; 
+        }
+        return result; 
+    }
+};
+
+```
+
