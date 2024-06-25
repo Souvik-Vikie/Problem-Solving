@@ -239,3 +239,44 @@ public:
 
 ```
 
+### 8. Valid Sudoku
+
+You are given a a 9 x 9 Sudoku board board. A Sudoku board is valid if the following rules are followed:
+
+Each row must contain the digits 1-9 without duplicates.
+Each column must contain the digits 1-9 without duplicates.
+Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without duplicates.
+Return true if the Sudoku board is valid, otherwise return false
+
+Note: A board does not need to be full or be solvable to be valid.
+
+```cpp
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        unordered_map<int, unordered_set<char>>rows;
+        unordered_map<int, unordered_set<char>> cols;
+        unordered_map<int, unordered_set<char>> squares ;
+
+        for(int r=0 ; r<9 ; r++)
+        {
+            for(int c=0; c<9; c++)
+            {
+                int cell = board[r][c] ;
+                if(cell == '.'){
+                    continue;
+                }
+                if(rows[r].count(cell) || cols[c].count(cell) || 
+                squares[(r/3)*3 + c/3].count(cell) ){
+                    return false;
+                }
+                cols[c].insert(cell);
+                rows[r].insert(cell);
+                squares[(r/3) *3 + c/3 ].insert(cell) ;
+            }
+        }
+        return true;
+    }
+};
+
+```
