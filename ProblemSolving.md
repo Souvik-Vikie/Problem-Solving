@@ -348,3 +348,42 @@ public:
 
 ```
 
+### 10. Two Integer Sum II
+
+Given an array of integers numbers that is sorted in non-decreasing order.
+
+Return the indices (1-indexed) of two numbers, [index1, index2], such that they add up to a given target number target and index1 < index2. Note that index1 and index2 cannot be equal, therefore you may not use the same element twice.
+
+There will always be exactly one valid solution.
+
+Your solution must use O(1) additional space.
+
+```cpp
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+     int i=0;
+     int j= numbers.size() - 1;
+     vector<int> ans;
+     while(i < j)
+     {
+        if(numbers[i] + numbers[j] > target )
+        {
+            j--;
+        }
+        else if(numbers[i] + numbers[j] < target)
+        {
+            i++ ;
+        }
+        else {
+            ans.push_back(i+1);
+            ans.push_back(j+1);
+            return ans;
+        }
+     }
+     return {};
+    }
+};
+
+```
+
