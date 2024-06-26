@@ -348,7 +348,7 @@ public:
 
 ```
 
-### 10. Two Integer Sum II
+### 11. Two Integer Sum II
 
 Given an array of integers numbers that is sorted in non-decreasing order.
 
