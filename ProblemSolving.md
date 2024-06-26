@@ -312,3 +312,39 @@ public:
 };
 
 ```
+
+### 10.Is Palindrome
+
+Given a string s, return true if it is a palindrome, otherwise return false.
+
+A palindrome is a string that reads the same forward and backward. It is also case-insensitive and ignores all non-alphanumeric characters.
+
+```cpp
+class Solution {
+public:
+    bool isPalindrome(string s) {
+      int l = 0;
+      int r = s.size() - 1 ;
+      while(l<r)
+      {
+        while(!isalnum(s[l]) && l<r)
+        {
+            l++;
+        }
+        while(!isalnum(s[r]) && l<r)
+        {
+            r--;
+        }
+        if(tolower(s[l]) != tolower(s[r]))
+        {
+            return false;
+        }
+        l++;
+        r--;
+      } 
+      return true; 
+    }
+};
+
+```
+
