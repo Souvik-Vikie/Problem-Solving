@@ -313,7 +313,10 @@ public:
 
 ```
 
-### 10.Is Palindrome
+## Two Pointers
+---
+
+### 1.Is Palindrome
 
 Given a string s, return true if it is a palindrome, otherwise return false.
 
@@ -348,7 +351,7 @@ public:
 
 ```
 
-### 11. Two Integer Sum II
+### 2. Two Integer Sum II
 
 Given an array of integers numbers that is sorted in non-decreasing order.
 
@@ -387,7 +390,7 @@ public:
 
 ```
 
-### 12. Three Integer Sum
+### 3. Three Integer Sum
 
 Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] where nums[i] + nums[j] + nums[k] == 0, and the indices i, j and k are all distinct.
 
@@ -442,7 +445,7 @@ public:
 
 ```
 
-### 13. Max Water Container
+### 4. Max Water Container
 
 You are given an integer array heights where heights[i] represents the height of the bar.
 
@@ -473,7 +476,7 @@ public:
 
 ```
 
-### 14.Trapping Rain Water
+### 5.Trapping Rain Water
 
 You are given an array non-negative integers heights which represent an elevation map. Each value heights[i] represents the height of a bar, which has a width of 1.
 
@@ -506,6 +509,43 @@ public:
             }
         }
         return res;
+    }
+};
+
+```
+
+## Binary Search
+---
+
+### 1. Binary Search
+
+You are given an array of distinct integers nums, sorted in ascending order, and an integer target.
+
+Implement a function to search for target within nums. If it exists, then return its index, otherwise, return -1.
+
+Your solution must run in O(logn) time.
+
+```cpp
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int l =0;
+        int h = nums.size() -1 ;
+        while ( l <= h)
+        {
+            int mid = (l+h)/2 ;
+            if(nums[mid]> target )
+            {
+                h = mid -1;
+            }
+            else if( nums[mid] < target )
+            {
+                l =mid+1 ;
+            }
+            else 
+            return mid;
+        }
+        return (-1) ;
     }
 };
 
