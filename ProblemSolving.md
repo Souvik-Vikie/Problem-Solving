@@ -387,3 +387,58 @@ public:
 
 ```
 
+### 12. Three Integer Sum
+
+Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] where nums[i] + nums[j] + nums[k] == 0, and the indices i, j and k are all distinct.
+
+The output should not contain any duplicate triplets. You may return the output and the triplets in any order.
+
+```cpp
+
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+      sort(nums.begin(), nums.end());
+        vector<vector<int>> res;
+        for(int i= 0; i< nums.size(); i++)
+        {
+            int target = -nums[i];
+            int front = i+1 ;
+            int back = nums.size() - 1 ;
+            while(front < back)
+            {
+                int sum = nums[front] + nums[back] ;
+                if(sum > target)
+                {
+                    back --;
+                }
+                else if( sum < target)
+                {
+                    front++ ;
+                }
+                else{
+                    vector<int> triplet = {nums[i], nums[front], nums[ back]} ;
+                    res.push_back(triplet);
+
+                    while(front< back && nums[front]== triplet[1])
+                    {
+                        front++;
+                    }
+                     while(front< back && nums[back]== triplet[2])
+                    {
+                        back--;
+                    }
+                }
+
+                while(i+1 < nums.size() && nums[i+1]== nums[i]) 
+                {
+                    i++ ;
+                }
+            }
+        }
+        return res;   
+    }
+};
+
+```
+
