@@ -442,3 +442,33 @@ public:
 
 ```
 
+### 13. Max Water Container
+
+You are given an integer array heights where heights[i] represents the height of the bar.
+
+You may choose any two bars to form a container. Return the maximum amount of water a container can store.
+
+```cpp
+class Solution {
+public:
+    int maxArea(vector<int>& heights) {
+        int l=0;
+        int h= heights.size() -1;
+        int maxValue = 0;
+        while(l< h)
+        {
+            int rh= min(heights[l], heights[h] );
+            int rb = h-l;
+            int area = rh * rb ;
+            maxValue = max(area , maxValue ) ;
+            if (heights[l] < heights[h]) {
+                l++;
+            } else {
+                h--;
+            }
+        }
+        return maxValue;
+    }
+};
+
+```
