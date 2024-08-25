@@ -1,8 +1,11 @@
 # Part 1
 
+
+### Create a Table
+
 ```sql
 
--- Create a Table
+
 DROP TABLE IF EXISTS MIGRANTW;
 
 CREATE TABLE MIGRANTW (
@@ -14,8 +17,11 @@ CREATE TABLE MIGRANTW (
     Ph_no        TEXT         NOT NULL,
     Enroll_date  TEXT         NOT NULL
 );
+```
 
--- Insert records into MIGRANTW table
+### Insert records into MIGRANTW table
+
+```sql
 INSERT INTO MIGRANTW (Enroll_ID, Name, Skill, Address, PJobloc, Ph_no, Enroll_date) VALUES
 (1, 'John Doe', 'Electrician,TV Mechanic', '123 Main St, Bangalore, Karnataka', 'Bangalore,Chennai', '9876543210', '2024-08-01');
 
@@ -38,32 +44,40 @@ INSERT INTO MIGRANTW (Enroll_ID, Name, Skill, Address, PJobloc, Ph_no, Enroll_da
 INSERT INTO MIGRANTW (Enroll_ID, Name, Skill, Address, PJobloc, Ph_no, Enroll_date) VALUES
 (7, 'David Lee', 'Security Guard,Cab Driver', '404 Birch St, Bangalore, Karnataka', 'Bangalore,Mumbai', '9876543216', '2024-08-07');
 
-
--- View the Table
 SELECT * FROM MIGRANTW;
 
---Listing the name of all migrant workers along with Skill and Ph who are either Electrician or TV Mechanic or both.
+```
+### Listing the name of all migrant workers along with Skill and Ph who are either Electrician or TV Mechanic or both.
+
+
+```sql
 
 SELECT DISTINCT Name, Skill, Ph_no
 FROM MIGRANTW
 WHERE Skill LIKE '%Electrician%' OR Skill LIKE '%TV Mechanic%';
+```
 
--- Listing the name of all migrant workers who are Security Guard and preferred to work in Bangalore.
+### Listing the name of all migrant workers who are Security Guard and preferred to work in Bangalore.
+
+```sql
 SELECT Name
 FROM MIGRANTW
 WHERE Skill LIKE '%Security Guard%' AND PJobloc LIKE '%Bangalore%';
+```
+### Creating a view with Name, Skill, PJobloc ordered by Skill for all the migrants who preferred to work in Delhi or Noida.
 
--- Creating a view with Name, Skill, PJobloc ordered by Skill for all the migrants who preferred to work in Delhi or Noida.
+```sql
 
 CREATE VIEW DelhiNoidaMigrantView AS
 SELECT Name, Skill, PJobloc
 FROM MIGRANTW
 WHERE PJobloc LIKE '%Delhi%' OR PJobloc LIKE '%Noida%'
 ORDER BY Skill;'
-
 ```
 
-## The JDBC program using prepared statements that takes Skill as input and displays the name, ph no, address, and job locations of all migrants.
+
+
+### The JDBC program using prepared statements that takes Skill as input and displays the name, ph no, address, and job locations of all migrants.
 
 ```java
 
@@ -104,9 +118,9 @@ public class MigrantWorkerSearch {
 
 ```
 
-```sql
+### Listing state-wise no. of migrants registered. (Assuming state is part of Address)
 
---Listing state-wise no. of migrants registered. (Assuming state is part of Address)
+```sql
 
 SELECT 
     substr(Address, length(Address) - instr(reverse(Address), ',') + 2) AS State,
@@ -114,13 +128,15 @@ SELECT
 FROM MIGRANTW
 GROUP BY State;
 
---Create two separate indexes against skill and job location attributes.
+```
 
--- Create indexes
+### Create two separate indexes against skill and job location attributes.List all migrants who are Cab driver and preferred to work in MUMBAI
+
+```sql
+
 CREATE INDEX idx_skill ON MIGRANTW(Skill);
 CREATE INDEX idx_pjobloc ON MIGRANTW(PJobloc);
 
--- List all migrants who are Cab driver and preferred to work in MUMBAI
 SELECT Name, Skill, PJobloc
 FROM MIGRANTW
 WHERE Skill LIKE '%Cab Driver%' AND PJobloc LIKE '%MUMBAI%';
@@ -130,8 +146,10 @@ WHERE Skill LIKE '%Cab Driver%' AND PJobloc LIKE '%MUMBAI%';
 
 # Part 2
 
+
+ ### Create Company_Req Table
+ 
 ```sql
--- Create Company_Req Table
 CREATE TABLE Company_Req (
     cname TEXT,
     job_type TEXT,
@@ -140,8 +158,12 @@ CREATE TABLE Company_Req (
     skill_required TEXT,
     PRIMARY KEY (cname, job_type, job_location)
 );
+```
 
--- Create Place_Migrant Table
+### Create Place_Migrant Table
+
+``` sql
+
 CREATE TABLE Place_Migrant (
     cname TEXT,
     enroll_ID INTEGER,
@@ -153,7 +175,12 @@ CREATE TABLE Place_Migrant (
     FOREIGN KEY (enroll_ID) REFERENCES MIGRANTW(Enroll_ID)
 );
 
--- Trigger
+```
+
+### Trigger
+
+```sql
+
 
 CREATE OR REPLACE FUNCTION insert_into_place_migrant()
 RETURNS TRIGGER AS $$
@@ -180,32 +207,48 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Creating the trigger
+```
+
+### Creating the trigger
+
+```sql
+
 CREATE TRIGGER after_insert_company_req
 AFTER INSERT ON Company_Req
 FOR EACH ROW
 EXECUTE FUNCTION insert_into_place_migrant();
 
+```
 
--- Add the Status column to MIGRANTW table
+
+### Add the Status column to MIGRANTW table
+
+```sql
+
 ALTER TABLE MIGRANTW ADD Status TEXT;
 
--- Update the Status of all placed migrants to "P" and others to "U"
+```
+
+### Update the Status of all placed migrants to "P" and others to "U"
+
+```sql
+
 UPDATE MIGRANTW
 SET Status = CASE
     WHEN Enroll_ID IN (SELECT Enroll_ID FROM Place_Migrant) THEN 'P'
     ELSE 'U'
 END;
 
---RollBack
+```
 
+### RollBack
+
+```sql
 BEGIN TRANSACTION;
 
--- Insert a record into Company_Req
 INSERT INTO Company_Req (cname, job_type, job_location, vacancy, skill_required) VALUES
 ('TechCorp', 'Developer', 'Bangalore', 5, 'Java');
 
--- Check if related records are inserted into Place_Migrant
 SELECT * FROM Place_Migrant;
 
 ROLLBACK;
@@ -213,7 +256,11 @@ ROLLBACK;
 -- Check if the related records in Place_Migrant are removed
 SELECT * FROM Place_Migrant;
 
--- Create a View on Details of Placed Migrants
+```
+
+### Create a View on Details of Placed Migrants
+
+```sql
 
 CREATE VIEW PlacedMigrantsView AS
 SELECT 
@@ -227,7 +274,11 @@ FROM Place_Migrant PM
 JOIN MIGRANTW MW ON PM.enroll_ID = MW.Enroll_ID
 JOIN Company_Req CR ON PM.cname = CR.cname AND PM.job_type = CR.job_type AND PM.job_location = CR.job_location;
 
---Display Company-Wise Migrants Count and Total Salary Invested
+```
+
+### Display Company-Wise Migrants Count and Total Salary Invested
+
+```sql
 
 SELECT 
     Company_Name,
@@ -237,7 +288,8 @@ FROM PlacedMigrantsView
 GROUP BY Company_Name;
 
 ```
-## JDBC Program to Insert a Record in MIGRANTW with 12-Digit Phone Number
+
+### JDBC Program to Insert a Record in MIGRANTW with 12-Digit Phone Number
 
 ```java
 
@@ -277,9 +329,11 @@ public class InsertMigrant {
 
 
 ```
+
+### Displaying Companies with Unfilled Vacancies
+
 ```sql
 
----Displaying Companies with Unfilled Vacancies
 
 DECLARE
     CURSOR c_vacancy IS
